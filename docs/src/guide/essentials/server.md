@@ -63,16 +63,18 @@ export default defineConfig(async () => {
 ```ts
 import axios from 'axios';
 
-axios.get('/api/user').then((res) => {
-  console.log(res);
-});
+axios
+  .post('/api/auth/login', { username: 'vben', password: '123456' })
+  .then((res) => {
+    console.log(res);
+  });
 ```
 
-此时，请求会被代理到 `http://localhost:5320/api/user`。
+此时，请求会被代理到 `http://localhost:5320/api/auth/login`。
 
 ::: warning 注意
 
-从浏览器控制台的 Network 看，请求是 `http://localhost:5555/api/user`, 这是因为 proxy 配置不会改变本地请求的 url。
+从浏览器控制台的 Network 看，请求是 `http://localhost:5555/api/auth/login`, 这是因为 proxy 配置不会改变本地请求的 url。
 
 :::
 
@@ -98,7 +100,7 @@ VITE_GLOB_API_URL=https://mock-napi.vben.pro/api
 
 ::: tip 打包如何动态修改接口地址
 
-`.env` 文件内的 `VITE_GLOB_*` 开头的变量会在打包的时候注入 `_app.config.js` 文件内。在 `dist/_app.config.js` 修改相应的接口地址后刷新页面即可，不需要在根据不同环境打包多次，一次打包可以用于多个不同接口环境的部署。
+`.env` 文件内的 `VITE_GLOB_*` 开头的变量会在打包的时候注入 `_app-config-{version}-{hash}.js` 文件内。在 `dist/_app-config-{version}-{hash}.js` 修改相应的接口地址后刷新页面即可，不需要在根据不同环境打包多次，一次打包可以用于多个不同接口环境的部署。
 
 :::
 

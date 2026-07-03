@@ -63,16 +63,18 @@ Based on the above configuration, we can use `/api` as the prefix for API reques
 ```ts
 import axios from 'axios';
 
-axios.get('/api/user').then((res) => {
-  console.log(res);
-});
+axios
+  .post('/api/auth/login', { username: 'vben', password: '123456' })
+  .then((res) => {
+    console.log(res);
+  });
 ```
 
-At this point, the request will be proxied to `http://localhost:5320/api/user`.
+At this point, the request will be proxied to `http://localhost:5320/api/auth/login`.
 
 ::: warning Note
 
-From the browser's console Network tab, the request appears as `http://localhost:5555/api/user`. This is because the proxy configuration does not change the local request's URL.
+From the browser's console Network tab, the request appears as `http://localhost:5555/api/auth/login`. This is because the proxy configuration does not change the local request's URL.
 
 :::
 
@@ -98,7 +100,7 @@ VITE_GLOB_API_URL=https://mock-napi.vben.pro/api
 
 ::: tip How to Dynamically Modify API Endpoint in Production
 
-Variables starting with `VITE_GLOB_*` in the `.env` file are injected into the `_app.config.js` file during packaging. After packaging, you can modify the corresponding API addresses in `dist/_app.config.js` and refresh the page to apply the changes. This eliminates the need to package multiple times for different environments, allowing a single package to be deployed across multiple API environments.
+Variables starting with `VITE_GLOB_*` in the `.env` file are injected into the `_app-config-{version}-{hash}.js` file during packaging. After packaging, you can modify the corresponding API addresses in `dist/_app-config-{version}-{hash}.js` and refresh the page to apply the changes. This eliminates the need to package multiple times for different environments, allowing a single package to be deployed across multiple API environments.
 
 :::
 
